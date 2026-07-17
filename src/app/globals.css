@@ -36,6 +36,16 @@ body {
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   background: var(--bg);
   color: var(--text);
@@ -107,13 +117,41 @@ a {
   margin: 18px 0 0;
   font-size: 15px;
 }
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 28px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: hsl(var(--orchestrator));
+  color: #0a0b0d;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  transition:
+    filter 150ms ease,
+    transform 150ms ease;
+}
+.hero-cta:hover {
+  filter: brightness(1.1);
+}
+.hero-cta:active {
+  transform: scale(0.98);
+}
 .scroll-cue {
+  display: inline-block;
   margin-top: 34px;
   font-size: 12px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-faint);
+  text-decoration: none;
   animation: bob 2.4s ease-in-out infinite;
+  transition: color 150ms ease;
+}
+.scroll-cue:hover {
+  color: var(--text);
 }
 @keyframes bob {
   0%,

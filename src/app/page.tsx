@@ -13,9 +13,17 @@ export default async function Home() {
       <header className="hero stars">
         <h1>FORGE</h1>
         <p>Ten specialists. Pick one, copy its prompt, go — no clone, no setup script.</p>
-        <div className="scroll-cue" aria-hidden="true">
+        <a
+          href="https://github.com/CafeLabsDev/forge"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hero-cta"
+        >
+          Ver no GitHub
+        </a>
+        <a href="#gallery" className="scroll-cue">
           Scroll ↓
-        </div>
+        </a>
       </header>
 
       <AgentGallery agents={agents} />
