@@ -20,7 +20,7 @@ export default async function Home() {
           rel="noopener noreferrer"
           className="hero-cta"
         >
-          Ver no GitHub
+          View on GitHub
         </a>
         <a href="#gallery" className="scroll-cue">
           Scroll ↓
