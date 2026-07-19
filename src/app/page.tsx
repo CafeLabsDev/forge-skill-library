@@ -1,5 +1,6 @@
 import { getAgents } from "@/lib/agents";
 import { AgentGallery } from "@/components/AgentGallery";
+import { InstallSection } from "@/components/InstallSection";
 
 export default async function Home() {
   const agents = await getAgents();
@@ -27,6 +28,8 @@ export default async function Home() {
       </header>
 
       <AgentGallery agents={agents} />
+
+      <InstallSection />
 
       <footer className="site-footer">
         Forge Skill Library — prompts sourced from the public Forge repository.

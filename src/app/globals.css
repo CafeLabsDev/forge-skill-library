@@ -813,6 +813,177 @@ a {
   white-space: nowrap;
 }
 
+/* ---------- install section ---------- */
+.install {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 90px 24px 100px;
+  border-top: 1px solid var(--border);
+}
+.install-kicker {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: hsl(var(--orchestrator));
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+.install-heading {
+  font-size: clamp(1.65rem, 1.3rem + 1.6vw, 2rem);
+  font-weight: 700;
+  color: var(--text);
+  max-width: 34ch;
+  margin: 0 0 14px;
+}
+.install-subhead {
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--text-dim);
+  max-width: 62ch;
+  margin: 0 0 36px;
+}
+
+.install-steps {
+  display: grid;
+  /* minmax(0, 1fr), not the naive 1fr, is what stops a code-bearing column
+     from blowing out the row's width on narrow viewports — a grid item's
+     default min-width is `auto` (i.e. "at least as wide as my unbroken
+     content"), which a <pre> with a long, unwrapped command line satisfies
+     by overflowing horizontally instead of shrinking. minmax(0, 1fr) lets
+     the column actually shrink to the track size; `.install-step`'s own
+     min-width: 0 and `.install-code-body`'s overflow-x: auto below are the
+     other two legs of the same fix, needed because min-width:0 doesn't
+     inherit down through nested flex/block children on its own. Verified
+     visually at ~390px and ~1280px, not just reasoned about. */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+@media (max-width: 760px) {
+  /* Three columns technically no longer overflow at this point (the fix
+     above), but a code block squeezed into a ~110px-wide column reads
+     terribly on a phone — stacking to one column per step is a baseline
+     mobile-usability call on top of the overflow fix, not a replacement
+     for it. */
+  .install-steps {
+    grid-template-columns: 1fr;
+  }
+}
+
+.install-step {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+}
+.install-step-num {
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: hsl(var(--orchestrator));
+  font-weight: 600;
+  margin: 0;
+}
+.install-step-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+.install-step-caption {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin: 0;
+}
+.install-step-body {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+.install-code {
+  min-width: 0;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.install-code-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.install-code-toolbar span {
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.install-code-body {
+  margin: 0;
+  padding: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-dim);
+  /* Second leg of the overflow fix (see .install-steps comment above): a
+     long unbroken command line scrolls horizontally inside its own block
+     instead of pushing the column wider than its grid track. */
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.install-phrase-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.install-phrase {
+  flex: 1 1 200px;
+  min-width: 0;
+  margin: 0;
+  padding: 12px 14px;
+  font-size: 13.5px;
+  font-style: italic;
+  color: var(--text-dim);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid hsl(var(--orchestrator));
+  border-radius: 10px;
+}
+
+.install-legend {
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--text-faint);
+  margin: 0;
+}
+.install-legend code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+}
+
+.install-readme-link {
+  margin: 40px 0 0;
+  font-size: 13.5px;
+  color: var(--text-dim);
+}
+.install-readme-link a {
+  font-weight: 700;
+  color: hsl(var(--orchestrator));
+}
+
 .site-footer {
   text-align: center;
   color: var(--text-faint);
