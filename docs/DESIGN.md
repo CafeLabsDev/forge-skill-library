@@ -25,7 +25,7 @@ variante clara/light.
 
 ### Cor de destaque por agente
 
-Cada um dos 10 agentes tem sua própria cor de destaque, guardada como tripla HSL (sem a
+Cada um dos agentes tem sua própria cor de destaque, guardada como tripla HSL (sem a
 função `hsl()`) para poder compor com opacidade via `hsl(var(--x) / <alpha>)`:
 
 | Agente         | CSS var             | HSL              |
@@ -40,6 +40,7 @@ função `hsl()`) para poder compor com opacidade via `hsl(var(--x) / <alpha>)`:
 | QA             | `--qa`                 | `15 78% 56%` (laranja-avermelhado) |
 | Security       | `--security`           | `355 62% 50%` (vermelho) |
 | Analytics      | `--analytics`          | `275 58% 66%` (roxo) |
+| Docs           | `--docs`               | `100 38% 52%` (verde-sálvia) |
 
 Essas cores viram `--card-accent` (definida inline por componente, nunca hardcoded no
 CSS) e dirigem: borda/glow do card no hover/focus, cor do "role" no card e no modal,
@@ -97,7 +98,7 @@ Implementado em `src/components/figures.tsx`:
     um traço contínuo), o outro forma um "L" de enquadramento/viewfinder com arestas
     tracejadas fantasmas.
 - **`SeedGraph`** — grafo genérico determinístico (por índice `seed`, não aleatório —
-  evita divergência entre render de servidor/cliente) usado para os 7 agentes ainda sem
+  evita divergência entre render de servidor/cliente) usado para os agentes ainda sem
   figura própria e para o estado "unavailable".
 
 As coordenadas de cada figura foram portadas 1:1 de mockups HTML validados fora deste

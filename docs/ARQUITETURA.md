@@ -5,16 +5,21 @@ conteúdo (hero, galeria, modal) é montado dentro de `src/app/page.tsx`.
 
 ## Fluxo de dados: como o site busca os agentes
 
-Este é o ponto mais importante da arquitetura: **o conteúdo dos 10 agentes não é
+Este é o ponto mais importante da arquitetura: **o conteúdo dos agentes não é
 mantido neste repositório**. Ele vive em `agents/*.md` no repositório público
 [`CafeLabsDev/forge`](https://github.com/CafeLabsDev/forge) (onde os agentes de verdade
 são definidos e mantidos) e é buscado em build time por `src/lib/agents.ts`.
 
 Mecânica (`getAgents()` em `src/lib/agents.ts`):
 
-1. Uma lista fixa `AGENT_CONFIGS` (hardcoded neste repo) define os 10 agentes — id,
+1. Uma lista fixa `AGENT_CONFIGS` (hardcoded neste repo) define os agentes — id,
    número de exibição, subtítulo ("role") e a variável CSS de cor de destaque. Essa
-   lista é só apresentação/ordem; não é o conteúdo do agente.
+   lista é só apresentação/ordem; não é o conteúdo do agente, mas precisa ser
+   atualizada manualmente sempre que um agente for adicionado/removido no `forge`
+   (já aconteceu uma vez: o agente `docs` foi adicionado ao roster do `forge` sem
+   atualizar esta lista, deixando a contagem "10 agents" no header da galeria e no
+   texto da hero desatualizada — corrigido em 2026-07-19 junto com a troca desses
+   textos por contagem dinâmica via `agents.length`, pra não se repetir).
 2. Para cada agente, `fetchAgent()` faz `fetch()` direto em
    `https://raw.githubusercontent.com/CafeLabsDev/forge/main/agents/<id>.md` — sem
    clone do repo, sem token (o repo é público). Isso roda dentro de um Server Component
@@ -97,6 +102,6 @@ via a CSS var `--font-display` — nunca ao corpo do texto ou ao prompt.
   try/catch individual) é uma escolha explícita para que uma instabilidade pontual do
   GitHub raw content não derrube a página toda — só degrada o(s) card(s) afetado(s).
 - **`ready` é um interruptor manual neste repo, não uma propriedade do agente no repo
-  `forge`.** Hoje só 3 dos 10 agentes estão marcados como prontos; os outros existem no
+  `forge`.** Hoje só 3 dos 11 agentes estão marcados como prontos; os outros existem no
   Forge mas ainda não têm o tratamento visual (figura própria) nem foram "aprovados" para
   mostrar o prompt completo aqui.

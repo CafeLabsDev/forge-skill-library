@@ -1,7 +1,7 @@
 # Forge Skill Library
 
 Public gallery site for the [Forge](https://github.com/CafeLabsDev/forge) multi-agent
-system: a full-viewport hero followed by a grid of 10 agent cards, each opening a modal
+system: a full-viewport hero followed by a grid of agent cards, each opening a modal
 with the agent's description and a one-click "copy prompt" button. The agent content
 itself is not authored here — at build time the site fetches each agent's Markdown
 definition straight from the public `CafeLabsDev/forge` repo, so this site is a

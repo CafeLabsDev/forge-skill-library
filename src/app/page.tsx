@@ -13,7 +13,7 @@ export default async function Home() {
 
       <header className="hero stars">
         <h1>FORGE</h1>
-        <p>Ten specialists. Pick one, copy its prompt, go — no clone, no setup script.</p>
+        <p>{agents.length} specialists. Pick one, copy its prompt, go — no clone, no setup script.</p>
         <a
           href="https://github.com/CafeLabsDev/forge"
           target="_blank"

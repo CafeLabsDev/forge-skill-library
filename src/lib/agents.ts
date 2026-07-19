@@ -70,6 +70,7 @@ const AGENT_CONFIGS: AgentConfig[] = [
   { id: "qa", num: "08", role: "Testing", accentVar: "--qa" },
   { id: "security", num: "09", role: "Independent Review", accentVar: "--security" },
   { id: "analytics", num: "10", role: "Instrumentation", accentVar: "--analytics" },
+  { id: "docs", num: "11", role: "Documentation", accentVar: "--docs" },
 ];
 
 // Naive kebab-case -> Title Case can't know "qa" and "devops" are meant as

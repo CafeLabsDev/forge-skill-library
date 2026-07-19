@@ -11,7 +11,7 @@ export function AgentGallery({ agents }: { agents: AgentCardData[] }) {
   return (
     <>
       <main className="gallery" id="gallery">
-        <h2>Skill Library — 10 agents</h2>
+        <h2>Skill Library — {agents.length} agents</h2>
         <ul className="grid">
           {agents.map((agent, index) => (
             <AgentCard key={agent.id} agent={agent} seed={index} onOpen={setOpenAgent} />
