@@ -1,6 +1,7 @@
 import { getAgents } from "@/lib/agents";
 import { AgentGallery } from "@/components/AgentGallery";
 import { InstallSection } from "@/components/InstallSection";
+import { MiniNav } from "@/components/MiniNav";
 
 export default async function Home() {
   const agents = await getAgents();
@@ -10,6 +11,8 @@ export default async function Home() {
       <a className="skip-link" href="#gallery">
         Skip to agent gallery
       </a>
+
+      <MiniNav />
 
       <header className="hero stars">
         <h1>FORGE</h1>
@@ -22,9 +25,15 @@ export default async function Home() {
         >
           View on GitHub
         </a>
-        <a href="#gallery" className="scroll-cue">
-          Scroll ↓
-        </a>
+        <div className="hero-cues">
+          <a href="#gallery" className="scroll-cue">
+            Agents ↓
+          </a>
+          <span className="cue-sep">|</span>
+          <a href="#install" className="install-cue">
+            Install ↓
+          </a>
+        </div>
       </header>
 
       <AgentGallery agents={agents} />

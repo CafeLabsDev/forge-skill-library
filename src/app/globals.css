@@ -140,27 +140,78 @@ a {
 .hero-cta:active {
   transform: scale(0.98);
 }
-.scroll-cue {
-  display: inline-block;
+.hero-cues {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
   margin-top: 34px;
+}
+.scroll-cue,
+.install-cue {
+  display: inline-block;
   font-size: 12px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-faint);
   text-decoration: none;
-  animation: bob 2.4s ease-in-out infinite;
   transition: color 150ms ease;
 }
-.scroll-cue:hover {
+.scroll-cue:hover,
+.install-cue:hover {
   color: var(--text);
 }
-@keyframes bob {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(6px);
+.cue-sep {
+  color: var(--text-faint);
+  font-size: 11px;
+  opacity: 0.5;
+}
+
+/* ---------- mini-nav ---------- */
+.mini-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 13px 20px;
+  background: rgba(18, 20, 24, 0.82);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  transform: translateY(-120%);
+  opacity: 0;
+  transition:
+    transform 220ms ease,
+    opacity 220ms ease;
+}
+.mini-nav.mini-nav-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+.mini-nav-mark {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text);
+  margin-right: 6px;
+}
+.mini-nav a {
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 150ms ease;
+}
+.mini-nav a:hover {
+  color: hsl(var(--orchestrator));
+}
+@media (prefers-reduced-motion: reduce) {
+  .mini-nav {
+    transition: none;
   }
 }
 
@@ -787,8 +838,7 @@ a {
   .arm-brush,
   .arm-frame,
   .brush-coil-flow,
-  .pulse-node,
-  .scroll-cue {
+  .pulse-node {
     animation: none !important;
   }
   /* The open/close fade is a separate, much smaller motion (a plain
