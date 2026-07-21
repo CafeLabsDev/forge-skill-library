@@ -26,7 +26,6 @@ const EXAMPLE_PHRASE =
  */
 export function InstallSection() {
   const commandRef = useRef<HTMLPreElement>(null);
-  const phraseRef = useRef<HTMLParagraphElement>(null);
 
   const sectionStyle: CSSVars = {
     "--card-accent": "var(--orchestrator)",
@@ -50,7 +49,7 @@ export function InstallSection() {
           <div className="install-code">
             <div className="install-code-toolbar">
               <span>shell</span>
-              <CopyButton text={CLONE_COMMAND} targetRef={commandRef} />
+              <CopyButton text={CLONE_COMMAND} targetRef={commandRef} label="Copy command" />
             </div>
             <pre className="install-code-body" ref={commandRef}>
               {CLONE_COMMAND}
@@ -66,12 +65,7 @@ export function InstallSection() {
           <p className="install-step-num">Step 02</p>
           <h3 className="install-step-title">Say what you&apos;re building</h3>
           <p className="install-step-caption">In Claude Code, in your own project folder:</p>
-          <div className="install-phrase-row">
-            <p className="install-phrase" ref={phraseRef}>
-              {EXAMPLE_PHRASE}
-            </p>
-            <CopyButton text={EXAMPLE_PHRASE} targetRef={phraseRef} />
-          </div>
+          <p className="install-phrase">{EXAMPLE_PHRASE}</p>
           <p className="install-legend">
             Any plain description works. Already mid-project? Say &quot;let&apos;s loop in the team&quot;
             instead — the orchestrator switches to triage mode.

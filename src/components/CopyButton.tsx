@@ -10,7 +10,15 @@ type CopyState = "idle" | "copied" | "manual";
  * textarea + document.execCommand("copy"); if that also fails, selects the
  * visible prompt text so the user can copy it manually with Ctrl+C.
  */
-export function CopyButton({ text, targetRef }: { text: string; targetRef: React.RefObject<HTMLElement | null> }) {
+export function CopyButton({
+  text,
+  targetRef,
+  label = "Copy prompt",
+}: {
+  text: string;
+  targetRef: React.RefObject<HTMLElement | null>;
+  label?: string;
+}) {
   const [state, setState] = useState<CopyState>("idle");
   const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -63,7 +71,7 @@ export function CopyButton({ text, targetRef }: { text: string; targetRef: React
     }
   }
 
-  const label = state === "copied" ? "Copied!" : state === "manual" ? "Select & Ctrl+C" : "Copy prompt";
+  const buttonLabel = state === "copied" ? "Copied!" : state === "manual" ? "Select & Ctrl+C" : label;
 
   return (
     <button
@@ -72,7 +80,7 @@ export function CopyButton({ text, targetRef }: { text: string; targetRef: React
       data-copied={state === "copied" ? "true" : "false"}
       onClick={handleClick}
     >
-      {label}
+      {buttonLabel}
     </button>
   );
 }
