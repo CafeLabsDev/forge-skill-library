@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import type { AgentCardData } from "@/lib/agents";
 import { getReadyFigures, SeedGraph } from "./figures";
 
@@ -10,14 +13,15 @@ export function AgentCard({
   seed: number;
   onOpen: (agent: AgentCardData) => void;
 }) {
+  const t = useTranslations("Card");
   const { Face } = getReadyFigures(agent.id);
   const stateClass = agent.unavailable ? " is-unavailable" : !agent.ready ? " is-locked" : "";
-  const tag = agent.unavailable ? "Unavailable" : !agent.ready ? "Soon" : null;
-  const accessibleSuffix = agent.unavailable
-    ? " (content unavailable)"
+  const tag = agent.unavailable ? t("tagUnavailable") : !agent.ready ? t("tagSoon") : null;
+  const ariaLabel = agent.unavailable
+    ? t("viewProfileUnavailable", { name: agent.name })
     : !agent.ready
-      ? " (not designed yet)"
-      : "";
+      ? t("viewProfileNotReady", { name: agent.name })
+      : t("viewProfile", { name: agent.name });
 
   return (
     <li>
@@ -26,7 +30,7 @@ export function AgentCard({
         className={`card${stateClass}`}
         style={{ ["--card-accent" as string]: `var(${agent.accentVar})` }}
         aria-haspopup="dialog"
-        aria-label={`View ${agent.name} profile${accessibleSuffix}`}
+        aria-label={ariaLabel}
         onClick={() => onOpen(agent)}
       >
         <span className="card-photo">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import type { AgentCardData } from "@/lib/agents";
 import { getReadyFigures, SeedGraph } from "./figures";
 import { CopyButton } from "./CopyButton";
@@ -36,6 +37,8 @@ export function AgentModal({
   agents: AgentCardData[];
   onClose: () => void;
 }) {
+  const t = useTranslations("Modal");
+  const locale = useLocale();
   const [renderedAgent, setRenderedAgent] = useState<AgentCardData | null>(null);
   const [hidden, setHidden] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
@@ -191,13 +194,9 @@ export function AgentModal({
   const readyAgents = agents.filter((a) => a.ready);
   const readyCount = readyAgents.length;
   const remainingCount = agents.length - readyCount;
-  const readyNames =
-    readyAgents.length <= 1
-      ? (readyAgents[0]?.name ?? "")
-      : `${readyAgents
-          .slice(0, -1)
-          .map((a) => a.name)
-          .join(", ")} and ${readyAgents[readyAgents.length - 1].name}`;
+  const readyNames = new Intl.ListFormat(locale, { style: "long", type: "conjunction" }).format(
+    readyAgents.map((a) => a.name),
+  );
 
   return (
     <div
@@ -215,7 +214,7 @@ export function AgentModal({
         style={modalStyle}
         ref={modalRef}
       >
-        <button type="button" className="modal-close" aria-label="Close" onClick={onClose} ref={closeButtonRef}>
+        <button type="button" className="modal-close" aria-label={t("close")} onClick={onClose} ref={closeButtonRef}>
           &#10005;
         </button>
         <div className="modal-figure">
@@ -247,22 +246,26 @@ export function AgentModal({
             <div className="prompt-body">
               {renderedAgent.unavailable ? (
                 <p className="prompt-empty">
-                  We couldn&apos;t load {renderedAgent.name}&apos;s prompt from the Forge repository at
-                  build time. You can still view the source file directly on{" "}
-                  <a href={renderedAgent.githubUrl} target="_blank" rel="noopener noreferrer">
-                    GitHub
-                  </a>
-                  .
+                  {t.rich("unavailableCopy", {
+                    name: renderedAgent.name,
+                    link: (chunks) => (
+                      <a href={renderedAgent.githubUrl} target="_blank" rel="noopener noreferrer">
+                        {chunks}
+                      </a>
+                    ),
+                  })}
                 </p>
               ) : (
                 <p className="prompt-empty">
-                  {renderedAgent.name} is not designed yet.
+                  {t("notDesignedYetIntro", { name: renderedAgent.name })}
                   <br />
                   <br />
-                  This round ships the shared visual grammar plus {readyCount} fully-realized{" "}
-                  {readyCount === 1 ? "agent" : "agents"} ({readyNames}) end to end. The remaining{" "}
-                  {remainingCount} — including {renderedAgent.name} — follow incrementally, each with its
-                  own hand-drawn pose and color, not a recolored template.
+                  {t("notDesignedYetBody", {
+                    name: renderedAgent.name,
+                    readyCount,
+                    remainingCount,
+                    readyNames,
+                  })}
                 </p>
               )}
             </div>

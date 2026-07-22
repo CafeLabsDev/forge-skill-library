@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import { Bebas_Neue } from "next/font/google";
+import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { getTranslations } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
+import { getAgents } from "@/lib/agents";
 import "./globals.css";
 
 // Scoped strictly to the "FORGE" wordmark (see .hero h1 in globals.css) —
@@ -16,20 +21,43 @@ const displayFont = Bebas_Neue({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "Forge Skill Library",
-  description:
-    "Ten Forge specialists. Pick one, copy its prompt, go — no clone, no setup script.",
-};
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
 
-export default function RootLayout({
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const [t, agents] = await Promise.all([
+    getTranslations({ locale, namespace: "Metadata" }),
+    getAgents(),
+  ]);
+  return {
+    title: t("title"),
+    description: t("description", { count: agents.length }),
+  };
+}
+
+export default async function RootLayout({
   children,
-}: Readonly<{
+  params,
+}: {
   children: React.ReactNode;
-}>) {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+
   return (
-    <html lang="en" className={displayFont.variable}>
-      <body>{children}</body>
+    <html lang={locale} className={displayFont.variable}>
+      <body>
+        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+      </body>
     </html>
   );
 }

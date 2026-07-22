@@ -1,0 +1,68 @@
+{
+  "Metadata": {
+    "title": "Forge Skill Library",
+    "description": "{count, plural, one {# especialista do Forge} other {# especialistas do Forge}}. Escolha um, copie o prompt, use — sem clonar, sem script de setup."
+  },
+  "Common": {
+    "skipToGallery": "Pular para a galeria de agentes"
+  },
+  "LanguageSwitcher": {
+    "label": "Trocar idioma"
+  },
+  "Hero": {
+    "tagline": "{count, plural, one {# especialista} other {# especialistas}}. Escolha um, copie o prompt, use — sem clonar, sem script de setup.",
+    "viewOnGithub": "Ver no GitHub",
+    "agentsCue": "Agentes ↓",
+    "installCue": "Instalar ↓"
+  },
+  "MiniNav": {
+    "agents": "Agentes",
+    "install": "Instalar"
+  },
+  "Gallery": {
+    "heading": "{count, plural, one {Skill Library — # agente} other {Skill Library — # agentes}}"
+  },
+  "Card": {
+    "viewProfile": "Ver perfil de {name}",
+    "viewProfileUnavailable": "Ver perfil de {name} (conteúdo indisponível)",
+    "viewProfileNotReady": "Ver perfil de {name} (ainda não desenhado)",
+    "tagSoon": "Em breve",
+    "tagUnavailable": "Indisponível"
+  },
+  "Modal": {
+    "close": "Fechar",
+    "notDesignedYetIntro": "{name} ainda não foi desenhado.",
+    "notDesignedYetBody": "Esta etapa entrega a gramática visual compartilhada mais {readyCount, plural, one {# agente totalmente realizado} other {# agentes totalmente realizados}} ({readyNames}) do início ao fim. Os {remainingCount} restantes — incluindo {name} — vêm de forma incremental, cada um com sua própria pose e cor desenhadas à mão, não um template recolorido.",
+    "unavailableCopy": "Não conseguimos carregar o prompt de {name} do repositório do Forge no momento do build. Ainda dá pra ver o arquivo-fonte direto no <link>GitHub</link>."
+  },
+  "Install": {
+    "kicker": "Rode o sistema completo",
+    "heading": "Um prompt agora. Todos os especialistas, pra sempre.",
+    "subhead": "Copiar um prompt acima já funciona sozinho — cole, pronto, nada instalado. Instalar o Forge acrescenta a outra metade: um orquestrador que traz os especialistas certos sozinho, projeto após projeto, em vez de você caçar um prompt de cada vez.",
+    "shellLabel": "shell",
+    "step1Num": "Passo 01",
+    "step1Title": "Clonar e conectar",
+    "step1Caption": "Setup único, vale pra qualquer projeto.",
+    "step1Legend": "Cria symlinks de cada agente em <code>~/.claude/agents/</code> — o Claude Code reconhece na hora, sem reiniciar.",
+    "step2Num": "Passo 02",
+    "step2Title": "Diga o que você está construindo",
+    "step2Caption": "No Claude Code, dentro da pasta do seu projeto:",
+    "examplePhrase": "\"Tenho uma ideia de app pra academias pequenas agendarem aulas e controlarem check-in de alunos.\"",
+    "step2Legend": "Qualquer descrição em texto livre funciona. Já está no meio de um projeto? Diga \"vamos trazer o time\" em vez disso — o orquestrador muda pro modo de triagem.",
+    "step3Num": "Passo 03",
+    "step3Title": "O orquestrador assume a partir daí",
+    "step3Caption": "Nenhum comando pra rodar — isso acontece automaticamente:",
+    "step3Body": "Ele delimita a ideia, delega pros especialistas que fizerem sentido — design, backend, mobile, o que o projeto realmente precisar — e sintetiza tudo de volta num plano só, sinalizando qualquer trade-off que um especialista tenha levantado no caminho.",
+    "readmeLinkPrefix": "Pré-requisitos, como personalizar o roster pra sua própria stack, e o documento de arquitetura completo — tudo isso vive no repositório.",
+    "readmeLinkCta": "Ver o passo a passo completo no README →"
+  },
+  "CopyButton": {
+    "copyPrompt": "Copiar prompt",
+    "copyCommand": "Copiar comando",
+    "copied": "Copiado!",
+    "selectManually": "Selecionar e Ctrl+C"
+  },
+  "Footer": {
+    "text": "Forge Skill Library — prompts extraídos do repositório público do Forge."
+  }
+}

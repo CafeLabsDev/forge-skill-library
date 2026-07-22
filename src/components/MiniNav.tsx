@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { ForgeIcon } from "@/components/ForgeIcon";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 /**
  * Hidden until the hero scrolls out of view — gives a way back to the
@@ -9,6 +11,7 @@ import { ForgeIcon } from "@/components/ForgeIcon";
  */
 export function MiniNav() {
   const [visible, setVisible] = useState(false);
+  const t = useTranslations("MiniNav");
 
   useEffect(() => {
     const hero = document.querySelector(".hero");
@@ -26,8 +29,9 @@ export function MiniNav() {
         <ForgeIcon className="mini-nav-icon" />
         FORGE
       </span>
-      <a href="#gallery">Agents</a>
-      <a href="#install">Install</a>
+      <a href="#gallery">{t("agents")}</a>
+      <a href="#install">{t("install")}</a>
+      <LanguageSwitcher className="mini-nav-lang-switch" />
     </nav>
   );
 }

@@ -94,6 +94,7 @@ a {
 
 /* ---------- hero ---------- */
 .hero {
+  position: relative;
   min-height: 100vh;
   min-height: 100dvh;
   display: flex;
@@ -102,6 +103,36 @@ a {
   justify-content: center;
   text-align: center;
   padding: 40px 20px;
+}
+
+/* ---------- language switcher ---------- */
+.lang-switch {
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition:
+    color 150ms ease,
+    border-color 150ms ease;
+}
+.lang-switch:hover,
+.lang-switch:focus-visible {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+.hero-lang-switch {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.mini-nav-lang-switch {
+  margin-left: auto;
 }
 /* Single timeline for the hero intro, hand-tuned so every piece lands
    before the next starts:

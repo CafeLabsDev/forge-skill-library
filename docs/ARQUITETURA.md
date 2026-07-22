@@ -1,13 +1,15 @@
 # Arquitetura
 
-Site Next.js (App Router) de página única. Não há roteamento além da rota raiz — todo o
-conteúdo (hero, galeria, modal) é montado dentro de `src/app/page.tsx`.
+Site Next.js (App Router) de página única, com roteamento por locale via `next-intl`
+(`/en`, `/pt`, inglês como locale padrão — ver seção "Internacionalização" abaixo). Fora
+do prefixo de locale, não há outras rotas — todo o conteúdo (hero, galeria, modal) é
+montado dentro de `src/app/[locale]/page.tsx`.
 
 ## Fluxo de dados: como o site busca os agentes
 
 Este é o ponto mais importante da arquitetura: **o conteúdo dos agentes não é
 mantido neste repositório**. Ele vive em `agents/*.md` no repositório público
-[`CafeLabsDev/forge`](https://github.com/CafeLabsDev/forge) (onde os agentes de verdade
+[`CafeLabsCorp/forge`](https://github.com/CafeLabsCorp/forge) (onde os agentes de verdade
 são definidos e mantidos) e é buscado em build time por `src/lib/agents.ts`.
 
 Mecânica (`getAgents()` em `src/lib/agents.ts`):
@@ -21,7 +23,7 @@ Mecânica (`getAgents()` em `src/lib/agents.ts`):
    texto da hero desatualizada — corrigido em 2026-07-19 junto com a troca desses
    textos por contagem dinâmica via `agents.length`, pra não se repetir).
 2. Para cada agente, `fetchAgent()` faz `fetch()` direto em
-   `https://raw.githubusercontent.com/CafeLabsDev/forge/main/agents/<id>.md` — sem
+   `https://raw.githubusercontent.com/CafeLabsCorp/forge/main/agents/<id>.md` — sem
    clone do repo, sem token (o repo é público). Isso roda dentro de um Server Component
    (`page.tsx` é `async` e chama `getAgents()`), então o Next.js renderiza estaticamente
    a página contra o estado do repo `forge` no momento do build/deploy.
@@ -51,18 +53,42 @@ prompts com mais frequência).
 
 ## Rotas e composição de página
 
-Rota única (`/`, `src/app/page.tsx`), Server Component `async`:
+Rota única por locale (`/[locale]`, `src/app/[locale]/page.tsx`), Server Component
+`async`:
 
 1. Skip-link de acessibilidade (`#gallery`).
-2. `<header className="hero stars">` — wordmark "FORGE", subtítulo, CTA "Ver no
+2. `<MiniNav />` — fixo no topo, some até o scroll passar da hero; inclui o
+   `LanguageSwitcher`.
+3. `<header className="hero stars">` — `LanguageSwitcher` (canto superior direito),
+   ícone `ForgeIcon` + wordmark "FORGE" animados (`.hero-mark`), subtítulo, CTA "Ver no
    GitHub" (link externo pro repo `forge`) e o indicador de scroll (`.scroll-cue`,
    link âncora pra `#gallery`).
-3. `<AgentGallery agents={agents} />` — grid de cards + modal (ver abaixo).
-4. `<footer className="site-footer">`.
+4. `<AgentGallery agents={agents} />` — grid de cards + modal (ver abaixo).
+5. `<InstallSection />` — passo a passo de instalação do Forge completo.
+6. `<footer className="site-footer">`.
 
-`src/app/layout.tsx` define só metadata (`title`/`description`) e carrega a fonte de
+`src/app/[locale]/layout.tsx` define metadata (`title`/`description`, traduzido e com a
+contagem de agentes via `getAgents()`), valida o `locale` da URL (`hasLocale` +
+`notFound()`), envolve a árvore em `NextIntlClientProvider` e carrega a fonte de
 exibição `Bebas_Neue` (`next/font/google`), aplicada exclusivamente ao wordmark "FORGE"
 via a CSS var `--font-display` — nunca ao corpo do texto ou ao prompt.
+
+## Internacionalização
+
+`next-intl` com roteamento por locale (`src/i18n/routing.ts`: locales `en`/`pt`, `en`
+como padrão — inglês por causa do público internacional/técnico deste site, ao
+contrário dos produtos irmãos com prioridade em português). `LanguageSwitcher`
+(`components/LanguageSwitcher.tsx`) alterna o locale mantendo a rota atual, renderizado
+tanto na hero quanto no `MiniNav`.
+
+Só o "chrome" da página é traduzido (`messages/en.json`, `messages/pt.json`): hero, nav,
+passos de instalação, rodapé, microcópia de card/modal (tags, aria-labels, mensagens de
+estado). **Nome, papel e descrição de cada agente permanecem sempre em inglês**,
+independente do locale ativo — são conteúdo técnico buscado em `src/lib/agents.ts` do
+repo público `forge` (ver seção "Fluxo de dados" acima), não texto de página que este
+site possua ou deva traduzir. A lista de nomes de agentes "prontos" mostrada no modal
+(`AgentModal.tsx`) usa `Intl.ListFormat` pra gerar a conjunção ("A, B and C" / "A, B e
+C") localizada corretamente sem hardcodar o conectivo.
 
 ## Componentes
 
@@ -80,6 +106,9 @@ via a CSS var `--font-display` — nunca ao corpo do texto ou ao prompt.
   existem; caso contrário mostra uma mensagem explicando por que não ("ainda não
   desenhado" vs. "não foi possível buscar do GitHub", com link direto pro arquivo no
   GitHub como fallback).
+- **`LanguageSwitcher`** (`components/LanguageSwitcher.tsx`, client component) — botão
+  que alterna pro outro locale (`en`↔`pt`) preservando a rota atual (`useRouter`/
+  `usePathname` de `src/i18n/navigation.ts`).
 - **`CopyButton`** (`components/CopyButton.tsx`) — copia o prompt via
   `navigator.clipboard`, com fallback em cascata: `document.execCommand("copy")` numa
   textarea oculta e, se isso também falhar, seleciona o texto visível pra Ctrl+C manual.

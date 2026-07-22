@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 
 type CopyState = "idle" | "copied" | "manual";
 
@@ -13,12 +14,13 @@ type CopyState = "idle" | "copied" | "manual";
 export function CopyButton({
   text,
   targetRef,
-  label = "Copy prompt",
+  label,
 }: {
   text: string;
   targetRef: React.RefObject<HTMLElement | null>;
   label?: string;
 }) {
+  const t = useTranslations("CopyButton");
   const [state, setState] = useState<CopyState>("idle");
   const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -71,7 +73,8 @@ export function CopyButton({
     }
   }
 
-  const buttonLabel = state === "copied" ? "Copied!" : state === "manual" ? "Select & Ctrl+C" : label;
+  const buttonLabel =
+    state === "copied" ? t("copied") : state === "manual" ? t("selectManually") : (label ?? t("copyPrompt"));
 
   return (
     <button

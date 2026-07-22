@@ -1,0 +1,68 @@
+{
+  "Metadata": {
+    "title": "Forge Skill Library",
+    "description": "{count, plural, one {# Forge specialist} other {# Forge specialists}}. Pick one, copy its prompt, go — no clone, no setup script."
+  },
+  "Common": {
+    "skipToGallery": "Skip to agent gallery"
+  },
+  "LanguageSwitcher": {
+    "label": "Switch language"
+  },
+  "Hero": {
+    "tagline": "{count, plural, one {# specialist} other {# specialists}}. Pick one, copy its prompt, go — no clone, no setup script.",
+    "viewOnGithub": "View on GitHub",
+    "agentsCue": "Agents ↓",
+    "installCue": "Install ↓"
+  },
+  "MiniNav": {
+    "agents": "Agents",
+    "install": "Install"
+  },
+  "Gallery": {
+    "heading": "{count, plural, one {Skill Library — # agent} other {Skill Library — # agents}}"
+  },
+  "Card": {
+    "viewProfile": "View {name} profile",
+    "viewProfileUnavailable": "View {name} profile (content unavailable)",
+    "viewProfileNotReady": "View {name} profile (not designed yet)",
+    "tagSoon": "Soon",
+    "tagUnavailable": "Unavailable"
+  },
+  "Modal": {
+    "close": "Close",
+    "notDesignedYetIntro": "{name} is not designed yet.",
+    "notDesignedYetBody": "This round ships the shared visual grammar plus {readyCount, plural, one {# fully-realized agent} other {# fully-realized agents}} ({readyNames}) end to end. The remaining {remainingCount} — including {name} — follow incrementally, each with its own hand-drawn pose and color, not a recolored template.",
+    "unavailableCopy": "We couldn't load {name}'s prompt from the Forge repository at build time. You can still view the source file directly on <link>GitHub</link>."
+  },
+  "Install": {
+    "kicker": "Run the full system",
+    "heading": "One prompt now. All the specialists, permanently.",
+    "subhead": "Copying a prompt above works on its own — paste it, done, nothing installed. Installing Forge adds the other half: an orchestrator that pulls in the right specialists on its own, project after project, instead of you hunting for one prompt at a time.",
+    "shellLabel": "shell",
+    "step1Num": "Step 01",
+    "step1Title": "Clone & wire it up",
+    "step1Caption": "One-time setup, any project.",
+    "step1Legend": "Symlinks every agent into <code>~/.claude/agents/</code> — Claude Code picks them up right away, no restart.",
+    "step2Num": "Step 02",
+    "step2Title": "Say what you're building",
+    "step2Caption": "In Claude Code, in your own project folder:",
+    "examplePhrase": "\"I have an idea for an app that helps small gyms schedule classes and manage member check-ins.\"",
+    "step2Legend": "Any plain description works. Already mid-project? Say \"let's loop in the team\" instead — the orchestrator switches to triage mode.",
+    "step3Num": "Step 03",
+    "step3Title": "The orchestrator takes it from there",
+    "step3Caption": "No command to run — this is what happens automatically:",
+    "step3Body": "It scopes the idea, delegates to whichever specialists apply — design, backend, mobile, whichever the project actually needs — and synthesizes everything back into one plan, flagging any trade-off a specialist raised along the way.",
+    "readmeLinkPrefix": "Prerequisites, customizing the roster for your own stack, and the full architecture doc all live in the repo.",
+    "readmeLinkCta": "See the full walkthrough in the README →"
+  },
+  "CopyButton": {
+    "copyPrompt": "Copy prompt",
+    "copyCommand": "Copy command",
+    "copied": "Copied!",
+    "selectManually": "Select & Ctrl+C"
+  },
+  "Footer": {
+    "text": "Forge Skill Library — prompts sourced from the public Forge repository."
+  }
+}
