@@ -1,48 +1,50 @@
+**[Leia em Português](DEPLOY.pt-br.md)**
+
 # Deploy
 
 ## Pipeline
 
-Não há workflow de CI/CD neste repositório (nenhum arquivo em `.github/workflows/`,
-nenhum `vercel.json`). O deploy é feito pela integração nativa da Vercel com o
-repositório GitHub [`CafeLabsCorp/forge-skill-library`](https://github.com/CafeLabsCorp/forge-skill-library):
-push/merge em `main` dispara um novo build e deploy automaticamente — mesmo padrão usado
-nos demais sites da Café Labs (`dindin-landing`, `domo-landing`, `mind-landing`), nenhum
-deles com pipeline própria em repo.
+There is no CI/CD workflow in this repository (no file under `.github/workflows/`,
+no `vercel.json`). Deployment happens through Vercel's native integration with the
+[`CafeLabsCorp/forge-skill-library`](https://github.com/CafeLabsCorp/forge-skill-library) GitHub
+repository: a push/merge to `main` automatically triggers a new build and deploy — the same pattern used
+across the other Café Labs sites (`dindin-landing`, `domo-landing`, `mind-landing`), none of
+them with their own in-repo pipeline.
 
-Como o conteúdo dos agentes é buscado via `fetch()` em build time (ver
-`docs/ARQUITETURA.md`), cada novo build reflete o estado atual de
-`agents/*.md` no repo público `CafeLabsCorp/forge` naquele momento — não há revalidação
-incremental configurada, então uma mudança no Forge só aparece aqui depois do próximo
-deploy deste site (`TODO: confirmar` se isso motiva algum gatilho de rebuild quando o
-Forge muda, hoje aparentemente não existe).
+Since agent content is fetched via `fetch()` at build time (see
+`docs/ARQUITETURA.md`), each new build reflects the current state of
+`agents/*.md` in the public `CafeLabsCorp/forge` repo at that moment — there is no
+incremental revalidation configured, so a change in Forge only shows up here after the next
+deploy of this site (`TODO: confirm` whether this motivates any rebuild trigger when
+Forge changes; today there doesn't appear to be one).
 
-## Ambientes
+## Environments
 
-Só produção — sem ambiente de staging configurado neste repo. A Vercel gera preview
-deployments automáticos por PR/branch (comportamento padrão da plataforma), mas nenhum
-domínio de staging fixo é usado.
+Production only — no staging environment configured in this repo. Vercel generates automatic
+preview deployments per PR/branch (the platform's default behavior), but no fixed
+staging domain is used.
 
-## Domínio
+## Domain
 
-- **Produção**: [forge.cafelabs.net](https://forge.cafelabs.net) — confirmado no ar em
-  2026-07-18 (deploy + DNS feitos manualmente pelo Felipe, mesmo fluxo do
-  `mind.cafelabs.net`; sem passo de configuração de domínio documentado neste repo).
-- URL padrão da Vercel (`*.vercel.app`) também existe como fallback, como em qualquer
-  projeto Vercel.
-- `TODO: confirmar` onde o DNS de `cafelabs.net` é gerenciado (registrador/provedor) e o
-  tipo exato de registro apontando pro Vercel (CNAME vs. registro A) — não verificável a
-  partir deste repositório.
+- **Production**: [forge.cafelabs.net](https://forge.cafelabs.net) — confirmed live on
+  2026-07-18 (deploy + DNS done manually by Felipe, the same flow as
+  `mind.cafelabs.net`; no domain configuration step documented in this repo).
+- The default Vercel URL (`*.vercel.app`) also exists as a fallback, as in any
+  Vercel project.
+- `TODO: confirm` where `cafelabs.net`'s DNS is managed (registrar/provider) and the
+  exact record type pointing to Vercel (CNAME vs. A record) — not verifiable from
+  this repository.
 
-## Variáveis de ambiente / segredos
+## Environment variables / secrets
 
-Nenhuma. O fetch de `src/lib/agents.ts` acessa `raw.githubusercontent.com` sem
-autenticação (repo `forge` é público) — não há chaves de API, tokens ou `.env` a
-configurar na Vercel para este projeto buildar ou rodar.
+None. The fetch in `src/lib/agents.ts` hits `raw.githubusercontent.com` without
+authentication (the `forge` repo is public) — there are no API keys, tokens, or `.env` to
+configure on Vercel for this project to build or run.
 
 ## Rollback
 
-Não documentado neste repo. Na prática, o mecanismo disponível é o padrão da Vercel:
-promover um deployment anterior pelo dashboard (cada deploy fica com sua própria URL
-imutável) ou reverter o commit em `main` e deixar o próximo push redeployar.
-`TODO: confirmar` se existe algum procedimento adicional específico da Café Labs além
-disso.
+Not documented in this repo. In practice, the available mechanism is Vercel's default:
+promote a previous deployment from the dashboard (each deploy has its own immutable
+URL) or revert the commit on `main` and let the next push redeploy.
+`TODO: confirm` whether any additional Café Labs-specific procedure exists beyond
+this.

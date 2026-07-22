@@ -1,116 +1,118 @@
+**[Leia em Português](DESIGN.pt-br.md)**
+
 # Design
 
-Não há um nome de identidade visual cunhado separadamente da própria marca "FORGE"
-(diferente de, por exemplo, o "Armário Aberto" do Domo) — o wordmark "FORGE" e a estética
-"constelação"/grafo escuro descrita abaixo são a identidade.
-`TODO: confirmar` se em algum momento um nome próprio for adotado para este visual.
+There is no visual identity name coined separately from the "FORGE" brand itself
+(unlike, for example, Domo's "Armário Aberto") — the "FORGE" wordmark and the
+"constellation"/dark graph aesthetic described below are the identity.
+`TODO: confirm` if a dedicated name is ever adopted for this visual.
 
-## Paleta
+## Palette
 
-Tema único, escuro (`color-scheme: dark` em `:root`, `src/app/globals.css`) — não há
-variante clara/light.
+Single, dark theme (`color-scheme: dark` on `:root`, `src/app/globals.css`) — there is no
+light variant.
 
-### Superfícies e texto
+### Surfaces and text
 
-| Token           | Valor                   | Uso                                   |
+| Token           | Value                   | Use                                   |
 | --------------- | ------------------------ | -------------------------------------- |
-| `--bg`          | `#0a0b0d`                 | fundo da página                        |
-| `--bg-raised`   | `#121418`                 | fundo de elementos elevados (foto do card, botão fechar) |
-| `--bg-panel`    | `#16191e`                 | painéis (card, modal, toolbar)         |
-| `--border`      | `rgba(255,255,255,0.09)`  | bordas padrão                          |
-| `--border-strong` | `rgba(255,255,255,0.18)` | bordas de maior contraste             |
-| `--text`        | `#f3f1ea`                 | texto principal                        |
-| `--text-dim`    | `#a2a8b3`                 | texto secundário                       |
-| `--text-faint`  | `#6b7280`                 | texto terciário (ids, labels uppercase) |
+| `--bg`          | `#0a0b0d`                 | page background                        |
+| `--bg-raised`   | `#121418`                 | elevated element background (card photo, close button) |
+| `--bg-panel`    | `#16191e`                 | panels (card, modal, toolbar)         |
+| `--border`      | `rgba(255,255,255,0.09)`  | default borders                          |
+| `--border-strong` | `rgba(255,255,255,0.18)` | higher-contrast borders             |
+| `--text`        | `#f3f1ea`                 | primary text                        |
+| `--text-dim`    | `#a2a8b3`                 | secondary text                       |
+| `--text-faint`  | `#6b7280`                 | tertiary text (ids, uppercase labels) |
 
-### Cor de destaque por agente
+### Per-agent accent color
 
-Cada um dos agentes tem sua própria cor de destaque, guardada como tripla HSL (sem a
-função `hsl()`) para poder compor com opacidade via `hsl(var(--x) / <alpha>)`:
+Each agent has its own accent color, stored as an HSL triplet (without the
+`hsl()` function) so it can be composed with opacity via `hsl(var(--x) / <alpha>)`:
 
-| Agente         | CSS var             | HSL              |
+| Agent          | CSS var             | HSL              |
 | -------------- | -------------------- | ----------------- |
-| Orchestrator   | `--orchestrator`      | `38 85% 58%` (âmbar) |
-| Product        | `--product`           | `165 60% 48%` (verde-água) |
+| Orchestrator   | `--orchestrator`      | `38 85% 58%` (amber) |
+| Product        | `--product`           | `165 60% 48%` (teal) |
 | Design         | `--design`             | `320 68% 62%` (magenta) |
-| Mobile         | `--mobile`             | `145 52% 48%` (verde) |
-| Backend        | `--backend`            | `250 58% 66%` (roxo-azulado) |
-| Frontend Web   | `--frontend-web`       | `200 75% 58%` (azul-ciano) |
-| DevOps         | `--devops`             | `220 14% 62%` (cinza-azulado) |
-| QA             | `--qa`                 | `15 78% 56%` (laranja-avermelhado) |
-| Security       | `--security`           | `355 62% 50%` (vermelho) |
-| Analytics      | `--analytics`          | `275 58% 66%` (roxo) |
-| Docs           | `--docs`               | `100 38% 52%` (verde-sálvia) |
+| Mobile         | `--mobile`             | `145 52% 48%` (green) |
+| Backend        | `--backend`            | `250 58% 66%` (blue-violet) |
+| Frontend Web   | `--frontend-web`       | `200 75% 58%` (cyan-blue) |
+| DevOps         | `--devops`             | `220 14% 62%` (blue-gray) |
+| QA             | `--qa`                 | `15 78% 56%` (red-orange) |
+| Security       | `--security`           | `355 62% 50%` (red) |
+| Analytics      | `--analytics`          | `275 58% 66%` (purple) |
+| Docs           | `--docs`               | `100 38% 52%` (sage green) |
 
-Essas cores viram `--card-accent` (definida inline por componente, nunca hardcoded no
-CSS) e dirigem: borda/glow do card no hover/focus, cor do "role" no card e no modal,
-fundo do botão de copiar, cor das figuras SVG (via `color: var(--card-accent)` +
-`currentColor`, ver abaixo) e o glow atrás do wordmark "FORGE" (fixo em
-`--orchestrator`, já que é o agente 01/tech lead).
+These colors become `--card-accent` (defined inline per component, never hardcoded in
+CSS) and drive: the card's border/glow on hover/focus, the "role" color on the card and modal,
+the copy button's background, the SVG figures' color (via `color: var(--card-accent)` +
+`currentColor`, see below), and the glow behind the "FORGE" wordmark (fixed to
+`--orchestrator`, since it's agent 01/the tech lead).
 
-## Tipografia
+## Typography
 
-- **Corpo**: pilha de fontes de sistema (`-apple-system, BlinkMacSystemFont, "Segoe UI",
-  Roboto, Helvetica, Arial, sans-serif`) — nenhuma webfont carregada para texto corrido,
-  decisão deliberada (ver comentário em `globals.css`).
-- **Wordmark "FORGE"**: única exceção — `Bebas_Neue` (peso 400, self-hosted via
-  `next/font/google`, subset `latin`), aplicada só ao `<h1>` da hero via a CSS var
-  `--font-display`. Tamanho fluido `clamp(4rem, 16vw, 11rem)`.
-- **Prompt no modal** (`.prompt-body`): fonte monoespaçada
-  (`ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`), 12.5px, para diferenciar
-  claramente o conteúdo copiável do resto da UI.
-- Labels/ids (`.card-id`, `.gallery h2`, `.modal-id`) usam uppercase + letter-spacing
-  largo (0.1–0.14em) em `--text-faint`, um padrão repetido em toda a UI para "metadados".
+- **Body**: a system font stack (`-apple-system, BlinkMacSystemFont, "Segoe UI",
+  Roboto, Helvetica, Arial, sans-serif`) — no webfont is loaded for running text,
+  a deliberate decision (see the comment in `globals.css`).
+- **"FORGE" wordmark**: the only exception — `Bebas_Neue` (weight 400, self-hosted via
+  `next/font/google`, `latin` subset), applied only to the hero's `<h1>` via the
+  `--font-display` CSS var. Fluid size `clamp(4rem, 16vw, 11rem)`.
+- **Modal prompt** (`.prompt-body`): a monospace font
+  (`ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`), 12.5px, to clearly
+  differentiate the copyable content from the rest of the UI.
+- Labels/ids (`.card-id`, `.gallery h2`, `.modal-id`) use uppercase + wide letter-spacing
+  (0.1–0.14em) in `--text-faint`, a pattern repeated across the UI for "metadata".
 
-## Layout e espaçamento
+## Layout and spacing
 
-- Hero: `min-height: 100dvh` (regra "hero sempre cobrindo a tela inteira" do padrão de
-  landing da Café Labs — ver `mind/cafelabs/padroes-landing.md`), conteúdo centralizado.
-- Galeria: grid responsivo `repeat(auto-fill, minmax(300px, 1fr))`, max-width 1180px.
-- Cards: `border-radius: 18px` (`--radius-card`), com uma "aba" decorativa
-  (`.card::before`) simulando uma etiqueta pendurada no topo do card.
-- Modal: `width: min(980px, 100%)`, layout de duas colunas (figura à esquerda, conteúdo à
-  direita) que colapsa para coluna única abaixo de 720px.
+- Hero: `min-height: 100dvh` (the "hero always covers the full screen" rule from Café
+  Labs' landing page standard — see `mind/cafelabs/padroes-landing.md`), centered content.
+- Gallery: a responsive grid, `repeat(auto-fill, minmax(300px, 1fr))`, max-width 1180px.
+- Cards: `border-radius: 18px` (`--radius-card`), with a decorative "tab"
+  (`.card::before`) simulating a hanging tag at the top of the card.
+- Modal: `width: min(980px, 100%)`, a two-column layout (figure on the left, content on the
+  right) that collapses to a single column below 720px.
 
-## Fundo "constelação"
+## "Constellation" background
 
-`.stars` (aplicado à hero) é um fundo gerado só em CSS — dois `radial-gradient` de
-pontos brancos com opacidade e tamanho diferentes, sem nenhuma imagem — criando um efeito
-de céu estrelado atrás do wordmark.
+`.stars` (applied to the hero) is a background generated entirely in CSS — two `radial-gradient`s of
+white dots with different opacity and size, no image at all — creating a
+starry-sky effect behind the wordmark.
 
-## Sistema de figuras SVG (retratos por agente)
+## SVG figure system (per-agent portraits)
 
-O elemento mais distinto da identidade: cada agente pronto (`orchestrator`, `product`,
-`design`) tem um retrato desenhado como grafo SVG — nós (`.fig-node`, círculos) ligados
-por arestas (`.fig-edge`, linhas), toda a cor herdada de `currentColor`/`--card-accent`.
-Implementado em `src/components/figures.tsx`:
+The most distinctive element of the identity: each ready agent (`orchestrator`, `product`,
+`design`) has a portrait drawn as an SVG graph — nodes (`.fig-node`, circles) linked
+by edges (`.fig-edge`, lines), with all color inherited from `currentColor`/`--card-accent`.
+Implemented in `src/components/figures.tsx`:
 
-- **Face** (pequena, 10–12 nós) — usada no card da galeria.
-- **Body** (corpo inteiro, 28–32 nós) — usada no modal, com 2 ou 4 "braços" animados
-  (cada um seu próprio `<g>`, pivotando em `transform-box: view-box` na própria
-  coordenada do ombro) que dão a cada agente uma pose própria e não intercambiável:
-  - **Orchestrator**: 4 braços simétricos "conduzindo" (postura de coordenação).
-  - **Product**: 2 braços assimétricos — um levantado apontando pra um nó isolado
-    (a hipótese mais arriscada), outro baixo se ramificando em 4 nós fantasmas
-    (hipóteses descartadas).
-  - **Design**: 2 braços assimétricos — um vira um "pincel" com uma espiral de tinta
-    fluindo (`stroke-dashoffset` animado, 17 segmentos com delay escalonado pra parecer
-    um traço contínuo), o outro forma um "L" de enquadramento/viewfinder com arestas
-    tracejadas fantasmas.
-- **`SeedGraph`** — grafo genérico determinístico (por índice `seed`, não aleatório —
-  evita divergência entre render de servidor/cliente) usado para os agentes ainda sem
-  figura própria e para o estado "unavailable".
+- **Face** (small, 10–12 nodes) — used on the gallery card.
+- **Body** (full body, 28–32 nodes) — used in the modal, with 2 or 4 animated "arms"
+  (each its own `<g>`, pivoting via `transform-box: view-box` at its own
+  shoulder coordinate) that give each agent its own, non-interchangeable pose:
+  - **Orchestrator**: 4 symmetric arms "conducting" (a coordinating posture).
+  - **Product**: 2 asymmetric arms — one raised, pointing at an isolated node
+    (the riskiest hypothesis), the other lowered, branching into 4 ghost nodes
+    (discarded hypotheses).
+  - **Design**: 2 asymmetric arms — one becomes a "brush" with a flowing ink
+    spiral (`stroke-dashoffset` animated, 17 segments with staggered delay to look
+    like one continuous stroke), the other forms an "L" framing/viewfinder shape with dashed
+    ghost edges.
+- **`SeedGraph`** — a deterministic generic graph (keyed by index `seed`, not random —
+  avoiding a mismatch between server/client rendering) used for agents that don't have their own
+  figure yet and for the "unavailable" state.
 
-As coordenadas de cada figura foram portadas 1:1 de mockups HTML validados fora deste
-repo (comentado no topo de `figures.tsx`) — não são "re-art directed" na conversão para
-JSX, só reexpressas.
+Each figure's coordinates were ported 1:1 from HTML mockups validated outside this
+repo (noted in a comment at the top of `figures.tsx`) — they aren't "re-art directed" in the
+conversion to JSX, just re-expressed.
 
-## Movimento
+## Motion
 
-- `.scroll-cue` (indicador de scroll da hero): animação `bob` sutil (translateY 6px,
-  2.4s, infinita).
-- Coil do braço de Design: flow contínuo via `stroke-dashoffset`.
-- Modal: cross-fade de opacidade + leve scale/translate ao abrir/fechar.
-- Todo movimento respeita `prefers-reduced-motion: reduce` (checado explicitamente em
-  `AgentModal.tsx` via `prefersReducedMotion()`, e via `@media` nos keyframes/transições
-  CSS relevantes) — consistente com a regra 2 do padrão de landing da Café Labs.
+- `.scroll-cue` (the hero's scroll indicator): a subtle `bob` animation (translateY 6px,
+  2.4s, infinite).
+- Design's arm coil: continuous flow via `stroke-dashoffset`.
+- Modal: opacity cross-fade + a slight scale/translate on open/close.
+- All motion respects `prefers-reduced-motion: reduce` (checked explicitly in
+  `AgentModal.tsx` via `prefersReducedMotion()`, and via `@media` in the relevant
+  keyframes/transitions in CSS) — consistent with rule 2 of the Café Labs landing page standard.
