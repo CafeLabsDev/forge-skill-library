@@ -103,14 +103,180 @@ a {
   text-align: center;
   padding: 40px 20px;
 }
+/* Single timeline for the hero intro, hand-tuned so every piece lands
+   before the next starts:
+   0–1000ms   each icon path pops in on its own (center hex, then the 6
+              petals, then the 3 amber accents last as a flourish). The
+              wordmark doesn't exist yet (.hero-name-wrap is 0-width), so
+              .hero-mark's justify-content: center centers the icon alone —
+              genuinely, via layout, not a guessed offset.
+   1000–1800ms .hero-name-wrap grows from 0 to its natural width (a real
+              layout width, not a visual-only mask), revealing "FORGE" as
+              it goes. Because it's real layout width and .hero-mark still
+              has justify-content: center, the flex row re-centers itself
+              on every frame as the wordmark grows — the icon drifts left
+              automatically as a side effect of layout, with no separate
+              travel animation of its own to keep in sync. This is what
+              actually gets "icon + however much of the wordmark is visible
+              stays centered as a unit" — the thing a hand-tuned translateX
+              on the icon (tried first) could only ever approximate, since
+              it had no way to know the wordmark's real width.
+   1800ms+    the icon settles; the 3 amber accents twinkle in place
+              (scale + opacity, staggered) instead of moving — moving them
+              risks pushing a shape outside the icon's viewBox and clipping
+              it, since they're only at 3 of 6 possible petal positions. */
+.hero-mark {
+  --mark-size: clamp(4rem, 16vw, 11rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 2vw, 26px);
+}
+.hero-icon {
+  height: calc(var(--mark-size) * 0.74); /* matches Bebas Neue's cap-height */
+  width: auto;
+  flex-shrink: 0;
+  color: var(--text);
+  filter: drop-shadow(0 0 24px hsla(var(--orchestrator) / 0.35));
+}
+.hero-icon path {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: hero-icon-path-in 400ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.hero-icon .forge-icon-hex {
+  animation-delay: 0ms;
+}
+.hero-icon .forge-icon-petal-1 {
+  animation-delay: 60ms;
+}
+.hero-icon .forge-icon-petal-2 {
+  animation-delay: 110ms;
+}
+.hero-icon .forge-icon-petal-3 {
+  animation-delay: 160ms;
+}
+.hero-icon .forge-icon-petal-4 {
+  animation-delay: 210ms;
+}
+.hero-icon .forge-icon-petal-5 {
+  animation-delay: 260ms;
+}
+.hero-icon .forge-icon-petal-6 {
+  animation-delay: 310ms;
+}
+@keyframes hero-icon-path-in {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+/* The 3 amber accents need two animations at once — the one-shot pop-in
+   above (same as every other path) AND the infinite twinkle loop — so they
+   get their own rule with both listed explicitly. A single `animation`
+   shorthand replaces the other one entirely rather than adding to it, so
+   folding the twinkle into `.hero-icon path`'s rule (or a same-specificity
+   sibling rule) silently dropped the pop-in and left them visible from the
+   very first frame. */
+.hero-icon .forge-icon-accent-top {
+  animation:
+    hero-icon-path-in 400ms cubic-bezier(0.34, 1.56, 0.64, 1) 390ms both,
+    hero-icon-accent-twinkle 2.6s ease-in-out 1800ms infinite;
+}
+.hero-icon .forge-icon-accent-bottom {
+  animation:
+    hero-icon-path-in 400ms cubic-bezier(0.34, 1.56, 0.64, 1) 440ms both,
+    hero-icon-accent-twinkle 2.6s ease-in-out 2650ms infinite;
+}
+.hero-icon .forge-icon-accent-left {
+  animation:
+    hero-icon-path-in 400ms cubic-bezier(0.34, 1.56, 0.64, 1) 490ms both,
+    hero-icon-accent-twinkle 2.6s ease-in-out 3500ms infinite;
+}
+.hero-icon .forge-icon-accent-top,
+.hero-icon .forge-icon-accent-bottom,
+.hero-icon .forge-icon-accent-left {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+@keyframes hero-icon-accent-twinkle {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(0.5);
+  }
+}
+.hero-name-wrap {
+  max-width: 0;
+  animation: hero-name-grow 800ms cubic-bezier(0.4, 0, 0.2, 1) 1000ms both;
+}
+@keyframes hero-name-grow {
+  0% {
+    max-width: 0;
+    overflow: hidden;
+  }
+  99.99% {
+    /* max-width can't animate smoothly to/from the `none` keyword (tried
+       that first: browsers can't interpolate a length toward a non-length,
+       so it just hard-switches partway through instead of growing), so
+       this needs a real length to animate toward — measured (not guessed):
+       "FORGE" in Bebas Neue renders at ~2.2× the font-size, consistent
+       across breakpoints since it's the same font/letter-spacing scaling
+       uniformly. First attempt used 3.2× "to be safe", but that overshoot
+       is exactly what caused the animation to look like it stopped abruptly
+       instead of easing out: growth kept accelerating/decelerating toward a
+       target 45% past the real width, so it was still moving at a real
+       clip when the box hit its actual content width and had nowhere
+       further to go — the curve's actual deceleration phase was landing on
+       empty space nobody could see. 2.25× (a hair over the measured 2.2×,
+       not a large safety margin) keeps the eased deceleration lined up with
+       where the text really stops growing. */
+    max-width: calc(var(--mark-size) * 2.25);
+    overflow: hidden;
+  }
+  100% {
+    /* Snaps overflow to visible right as the wrapper reaches its natural
+       width, so the wordmark's 60px text-shadow glow isn't left permanently
+       clipped to the tight edge of the settled text — overflow isn't a
+       property you can smoothly interpolate, but a hard cut at the very
+       last instant of the keyframe (max-width unchanged either side) is
+       fine here. */
+    max-width: calc(var(--mark-size) * 2.25);
+    overflow: visible;
+  }
+}
 .hero h1 {
   font-family: var(--font-display), -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(4rem, 16vw, 11rem);
+  font-size: var(--mark-size);
   font-weight: 400;
   letter-spacing: 0.06em;
   margin: 0;
   color: var(--text);
   text-shadow: 0 0 60px hsla(var(--orchestrator) / 0.25);
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-icon path,
+  .hero-name-wrap {
+    animation: none;
+  }
+  .hero-icon path {
+    opacity: 1;
+    transform: none;
+  }
+  .hero-name-wrap {
+    max-width: none;
+    overflow: visible;
+  }
 }
 .hero p {
   color: var(--text-dim);
@@ -193,11 +359,19 @@ a {
   opacity: 1;
 }
 .mini-nav-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.1em;
   color: var(--text);
   margin-right: 6px;
+}
+.mini-nav-icon {
+  width: 14px;
+  height: auto;
+  color: var(--text);
 }
 .mini-nav a {
   font-size: 13px;
@@ -220,6 +394,7 @@ a {
   max-width: 1180px;
   margin: 0 auto;
   padding: 20px 24px 100px;
+  scroll-margin-top: 70px; /* clears the fixed .mini-nav when #gallery is scrolled to */
 }
 .gallery h2 {
   font-size: 13px;
@@ -870,6 +1045,7 @@ a {
   margin: 0 auto;
   padding: 90px 24px 100px;
   border-top: 1px solid var(--border);
+  scroll-margin-top: 70px; /* clears the fixed .mini-nav when #install is scrolled to */
 }
 .install-kicker {
   font-size: 13px;

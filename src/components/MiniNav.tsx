@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ForgeIcon } from "@/components/ForgeIcon";
 
 /**
  * Hidden until the hero scrolls out of view — gives a way back to the
@@ -21,7 +22,10 @@ export function MiniNav() {
 
   return (
     <nav className={`mini-nav${visible ? " mini-nav-visible" : ""}`}>
-      <span className="mini-nav-mark">FORGE</span>
+      <span className="mini-nav-mark">
+        <ForgeIcon className="mini-nav-icon" />
+        FORGE
+      </span>
       <a href="#gallery">Agents</a>
       <a href="#install">Install</a>
     </nav>

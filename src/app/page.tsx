@@ -2,6 +2,7 @@ import { getAgents } from "@/lib/agents";
 import { AgentGallery } from "@/components/AgentGallery";
 import { InstallSection } from "@/components/InstallSection";
 import { MiniNav } from "@/components/MiniNav";
+import { ForgeIcon } from "@/components/ForgeIcon";
 
 export default async function Home() {
   const agents = await getAgents();
@@ -15,7 +16,12 @@ export default async function Home() {
       <MiniNav />
 
       <header className="hero stars">
-        <h1>FORGE</h1>
+        <div className="hero-mark">
+          <ForgeIcon className="hero-icon" />
+          <div className="hero-name-wrap">
+            <h1>FORGE</h1>
+          </div>
+        </div>
         <p>{agents.length} specialists. Pick one, copy its prompt, go — no clone, no setup script.</p>
         <a
           href="https://github.com/CafeLabsDev/forge"
