@@ -2,7 +2,7 @@
 // here instead of as magic strings inline in components, same convention
 // as the mind-landing sibling project's src/lib/site.ts.
 
-export const FORGE_REPO_URL = "https://github.com/CafeLabsDev/forge";
+export const FORGE_REPO_URL = "https://github.com/CafeLabsCorp/forge";
 
 /** Anchor into the Forge repo's README "Quick start" section, linked from
  * the install walkthrough (see InstallSection.tsx). */

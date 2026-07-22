@@ -9,7 +9,7 @@
 // fetch marks only that agent "unavailable" instead of failing the whole
 // build or blanking the whole page.
 
-const REPO = "CafeLabsDev/forge";
+const REPO = "CafeLabsCorp/forge";
 const REPO_BRANCH = "main";
 const RAW_BASE = `https://raw.githubusercontent.com/${REPO}/${REPO_BRANCH}/agents`;
 const GITHUB_BLOB_BASE = `https://github.com/${REPO}/blob/${REPO_BRANCH}/agents`;

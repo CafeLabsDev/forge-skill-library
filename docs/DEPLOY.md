@@ -4,14 +4,14 @@
 
 Não há workflow de CI/CD neste repositório (nenhum arquivo em `.github/workflows/`,
 nenhum `vercel.json`). O deploy é feito pela integração nativa da Vercel com o
-repositório GitHub [`CafeLabsDev/forge-skill-library`](https://github.com/CafeLabsDev/forge-skill-library):
+repositório GitHub [`CafeLabsCorp/forge-skill-library`](https://github.com/CafeLabsCorp/forge-skill-library):
 push/merge em `main` dispara um novo build e deploy automaticamente — mesmo padrão usado
 nos demais sites da Café Labs (`dindin-landing`, `domo-landing`, `mind-landing`), nenhum
 deles com pipeline própria em repo.
 
 Como o conteúdo dos agentes é buscado via `fetch()` em build time (ver
 `docs/ARQUITETURA.md`), cada novo build reflete o estado atual de
-`agents/*.md` no repo público `CafeLabsDev/forge` naquele momento — não há revalidação
+`agents/*.md` no repo público `CafeLabsCorp/forge` naquele momento — não há revalidação
 incremental configurada, então uma mudança no Forge só aparece aqui depois do próximo
 deploy deste site (`TODO: confirmar` se isso motiva algum gatilho de rebuild quando o
 Forge muda, hoje aparentemente não existe).
