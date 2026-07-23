@@ -48,12 +48,18 @@ export function AgentModal({
   // useState rather than useRef — refs may not be read/written during
   // render (only in effects/handlers), only state may.
   const [prevAgent, setPrevAgent] = useState<AgentCardData | null>(null);
+  // Shown right after a successful copy — the moment of highest intent to
+  // nudge toward the Install section, since a visitor who just got what
+  // they came for is the one most likely to leave without ever scrolling
+  // that far. See tarefas/empresa.md (2026-07-23) for why this exists.
+  const [showInstallNudge, setShowInstallNudge] = useState(false);
 
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const promptRef = useRef<HTMLPreElement>(null);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const nudgeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Always reflects the LIVE "should a modal currently be open" intent,
   // updated at the top of the effect below on every run. The close-timer
   // callback checks this ref (not a value captured in its own closure) at
@@ -75,6 +81,7 @@ export function AgentModal({
   // DOM/outside world rather than derive from props.
   if (agent !== prevAgent) {
     setPrevAgent(agent);
+    setShowInstallNudge(false);
     if (agent) {
       setRenderedAgent(agent);
       setOpenToken((t) => t + 1);
@@ -184,6 +191,12 @@ export function AgentModal({
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [agent, onClose]);
 
+  useEffect(() => {
+    return () => {
+      if (nudgeTimerRef.current) clearTimeout(nudgeTimerRef.current);
+    };
+  }, []);
+
   const modalStyle: CSSVars = {
     "--card-accent": `var(${renderedAgent?.accentVar ?? "--orchestrator"})`,
   };
@@ -197,6 +210,22 @@ export function AgentModal({
   const readyNames = new Intl.ListFormat(locale, { style: "long", type: "conjunction" }).format(
     readyAgents.map((a) => a.name),
   );
+
+  function handleCopied() {
+    setShowInstallNudge(true);
+    if (nudgeTimerRef.current) clearTimeout(nudgeTimerRef.current);
+    nudgeTimerRef.current = setTimeout(() => setShowInstallNudge(false), 6000);
+  }
+
+  // Closes the modal (restoring body scroll immediately, see the effect
+  // above) then hands off to a native smooth scroll — the short delay gives
+  // that overflow reset a moment to land before scrollIntoView runs.
+  function goToInstall() {
+    onClose();
+    setTimeout(() => {
+      document.getElementById("install")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
+  }
 
   return (
     <div
@@ -235,8 +264,14 @@ export function AgentModal({
           <div className="prompt-toolbar">
             <span>{renderedAgent?.sourcePath ?? ""}</span>
             {showPrompt && renderedAgent?.content ? (
-              <CopyButton text={renderedAgent.content} targetRef={promptRef} />
+              <CopyButton text={renderedAgent.content} targetRef={promptRef} onCopied={handleCopied} />
             ) : null}
+          </div>
+          <div className="install-nudge" data-visible={showInstallNudge ? "true" : "false"}>
+            <span>{t("installNudge", { count: agents.length })}</span>
+            <button type="button" onClick={goToInstall}>
+              {t("installNudgeCta")}
+            </button>
           </div>
           {showPrompt && renderedAgent?.content ? (
             <pre className="prompt-body" ref={promptRef}>

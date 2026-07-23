@@ -33,7 +33,9 @@
     "close": "Close",
     "notDesignedYetIntro": "{name} is not designed yet.",
     "notDesignedYetBody": "This round ships the shared visual grammar plus {readyCount, plural, one {# fully-realized agent} other {# fully-realized agents}} ({readyNames}) end to end. The remaining {remainingCount} — including {name} — follow incrementally, each with its own hand-drawn pose and color, not a recolored template.",
-    "unavailableCopy": "We couldn't load {name}'s prompt from the Forge repository at build time. You can still view the source file directly on <link>GitHub</link>."
+    "unavailableCopy": "We couldn't load {name}'s prompt from the Forge repository at build time. You can still view the source file directly on <link>GitHub</link>.",
+    "installNudge": "That's one specialist. Want all {count} working together, automatically?",
+    "installNudgeCta": "Install →"
   },
   "Install": {
     "kicker": "Run the full system",
