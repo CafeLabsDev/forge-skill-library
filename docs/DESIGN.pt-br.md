@@ -107,6 +107,21 @@ As coordenadas de cada figura foram portadas 1:1 de mockups HTML validados fora 
 repo (comentado no topo de `figures.tsx`) — não são "re-art directed" na conversão para
 JSX, só reexpressas.
 
+## Marca e favicon
+
+O hexágono âmbar + 6 pétalas existe em duas implementações separadas, de propósito:
+
+- **`ForgeIcon`** (`src/components/ForgeIcon.tsx`) — o componente React usado dentro da
+  página, na hero (animado) e no `MiniNav` (estático). As pétalas usam `currentColor`
+  pra herdar `--text` em vez de um fill estático.
+- **`src/app/icon.svg`** (favicon/ícone da aba do navegador, resolvido pela convenção de
+  metadata baseada em arquivo do Next.js) — um SVG separado e estático com a mesma forma,
+  usando `prefers-color-scheme` diretamente (`.petal { fill: #f3f1ea }`, trocado pra
+  `#16191e` no modo claro) já que renderiza num contexto sem acesso às CSS custom
+  properties nem ao tema dark-only deste site. Vive fora do segmento `[locale]`
+  especificamente pra não ficar prefixado por locale (corrigido em 2026-07-22, ver
+  histórico do git).
+
 ## Movimento
 
 - `.scroll-cue` (indicador de scroll da hero): animação `bob` sutil (translateY 6px,

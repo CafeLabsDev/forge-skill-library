@@ -9,3 +9,7 @@ Ver [`README.md`](README.md) para o que este projeto é e como rodar localmente,
   neste repositório, isso vive no repo `forge`. Mudanças aqui devem se limitar à
   apresentação (cards, modal, figuras, layout).
 - Sem variáveis de ambiente/segredos: o fetch é público e sem token.
+- Mudanças futuras significativas neste projeto (features novas, não pequenos fixes)
+  devem passar pelo Forge (o time de agentes especializados do repo `forge`) em vez de
+  serem feitas ad-hoc — é o próprio produto que este site documenta, então é o padrão a
+  seguir aqui também.

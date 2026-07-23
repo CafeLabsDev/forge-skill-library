@@ -107,6 +107,20 @@ Each figure's coordinates were ported 1:1 from HTML mockups validated outside th
 repo (noted in a comment at the top of `figures.tsx`) — they aren't "re-art directed" in the
 conversion to JSX, just re-expressed.
 
+## Brand mark and favicon
+
+The amber hexagon + 6-petal mark exists as two separate implementations, on purpose:
+
+- **`ForgeIcon`** (`src/components/ForgeIcon.tsx`) — the in-page React component, used in
+  the hero (animated) and `MiniNav` (static). Its petals use `currentColor` so they
+  inherit `--text` instead of a static fill.
+- **`src/app/icon.svg`** (`favicon`/browser-tab icon, resolved via Next.js's file-based
+  metadata convention) — a separate, static SVG with the same shape, `prefers-color-scheme`
+  used directly (`.petal { fill: #f3f1ea }`, swapped to `#16191e` in light mode) since it
+  renders in a context with no access to this site's CSS custom properties or dark-only
+  theme. It lives outside the `[locale]` segment specifically so it isn't locale-prefixed
+  (fixed 2026-07-22, see git history).
+
 ## Motion
 
 - `.scroll-cue` (the hero's scroll indicator): a subtle `bob` animation (translateY 6px,

@@ -63,11 +63,19 @@ Rota única por locale (`/[locale]`, `src/app/[locale]/page.tsx`), Server Compon
    `LanguageSwitcher`.
 3. `<header className="hero stars">` — `LanguageSwitcher` (canto superior direito),
    ícone `ForgeIcon` + wordmark "FORGE" animados (`.hero-mark`), subtítulo, CTA "Ver no
-   GitHub" (link externo pro repo `forge`) e o indicador de scroll (`.scroll-cue`,
-   link âncora pra `#gallery`).
+   GitHub" (link externo pro repo `forge`) e duas chamadas âncora lado a lado
+   (`.hero-cues`): "Agents ↓" pra `#gallery` e "Install ↓" pra `#install`.
 4. `<AgentGallery agents={agents} />` — grid de cards + modal (ver abaixo).
-5. `<InstallSection />` — passo a passo de instalação do Forge completo.
+5. `<InstallSection />` — passo a passo de instalação do Forge completo, ancorado em
+   `#install`.
 6. `<footer className="site-footer">`.
+
+`src/proxy.ts` é o middleware do `next-intl` (`createMiddleware(routing)`) que resolve o
+prefixo de locale em toda requisição, exceto `api`/`_next`/`_vercel`/arquivos estáticos —
+é o que faz `/` redirecionar pra `/en` (locale padrão) e mantém `/en`/`/pt` em sincronia
+com o plugin `withNextIntl` do `next.config.ts`. `src/lib/site.ts` guarda as duas
+constantes de URL externa usadas nos componentes (`FORGE_REPO_URL`,
+`FORGE_QUICK_START_URL`) em vez de deixá-las hardcoded inline.
 
 `src/app/[locale]/layout.tsx` define metadata (`title`/`description`, traduzido e com a
 contagem de agentes via `getAgents()`), valida o `locale` da URL (`hasLocale` +
@@ -114,6 +122,23 @@ C") localizada corretamente sem hardcodar o conectivo.
 - **`CopyButton`** (`components/CopyButton.tsx`) — copia o prompt via
   `navigator.clipboard`, com fallback em cascata: `document.execCommand("copy")` numa
   textarea oculta e, se isso também falhar, seleciona o texto visível pra Ctrl+C manual.
+- **`MiniNav`** (`components/MiniNav.tsx`, client component) — uma barra de navegação
+  fixa (marca + links âncora "Agents"/"Install" + `LanguageSwitcher`) que fica escondida
+  até a hero sair da tela (rastreado por um listener de `scroll` comparando
+  `window.scrollY` com o `offsetHeight` da hero), dando um caminho de volta pra galeria/
+  instalação depois que o leitor rolou além da hero.
+- **`InstallSection`** (`components/InstallSection.tsx`, client component) — a seção
+  `#install` entre a galeria e o rodapé: um passo a passo de 3 etapas (clonar + rodar
+  `scripts/setup-symlinks.sh`, descrever o que está sendo construído, deixar o
+  orquestrador delegar) pra instalar o sistema Forge completo, não só copiar o prompt de
+  um agente. O passo 1 tem seu próprio `CopyButton` pro comando de clone, com
+  `--card-accent` fixado em `--orchestrator` pra seção toda.
+- **`ForgeIcon`** (`components/ForgeIcon.tsx`) — a marca SVG do hexágono âmbar + 6
+  pétalas, reaproveitada na hero (animada, girando em passos de 60° via as regras CSS de
+  `.hero-icon` agindo sobre o grupo `forge-icon-accents` do ícone) e no `MiniNav`
+  (estática). Diferente de `src/app/icon.svg`, o favicon/ícone da aba do navegador (um
+  asset separado e mais simples que vive fora do segmento `[locale]` pra não ficar
+  prefixado por locale — ver `docs/DESIGN.md`).
 - **`figures.tsx`** — sistema compartilhado de "figuras" SVG (grafos de nós/arestas) que
   dá a cada agente pronto (`orchestrator`, `product`, `design`) um retrato desenhado à
   mão (versão pequena "Face" pro card, versão de corpo inteiro "Body" pro modal), mais um

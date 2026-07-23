@@ -58,14 +58,18 @@ src/
   app/
     [locale]/
       layout.tsx    # layout raiz, metadata, fonte de display, NextIntlClientProvider
-      page.tsx       # composição hero + galeria + footer
+      page.tsx       # composição hero + galeria + instalação + footer
       globals.css    # tokens de design, estilos de hero/galeria/card/modal/figura
+    icon.svg          # favicon, fora de [locale] pra não ficar prefixado por locale
   components/
     AgentGallery.tsx  # client component: grid + estado de abrir/fechar modal
     AgentCard.tsx     # um card-crachá (foto, nome, papel, descrição)
     AgentModal.tsx     # diálogo de detalhe: descrição completa + prompt + copiar
     CopyButton.tsx      # copiar pra área de transferência com fallback execCommand/seleção manual
     LanguageSwitcher.tsx # alterna entre os dois locales, na hero + no mini-nav
+    MiniNav.tsx           # nav fixa, escondida até o scroll passar da hero
+    InstallSection.tsx    # #install: passo a passo pra instalar o Forge completo
+    ForgeIcon.tsx          # marca dentro da página (hero + mini-nav), diferente do icon.svg
     figures.tsx          # "gramática de figuras" SVG compartilhada (retratos por agente)
   i18n/
     routing.ts        # locales (en, pt), locale padrão (en)
@@ -73,6 +77,8 @@ src/
     request.ts          # resolve o arquivo de mensagens do locale ativo
   lib/
     agents.ts        # fetch em tempo de build de agents/*.md do CafeLabsCorp/forge
+    site.ts            # constantes de URL externas compartilhadas (repo do Forge, âncora do quick-start)
+  proxy.ts             # middleware do next-intl: resolve o prefixo de locale por requisição
 messages/
   en.json, pt.json    # texto do "chrome" da página (hero, nav, passos de instalação, footer, ...)
 ```
